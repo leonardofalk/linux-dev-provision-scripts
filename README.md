@@ -123,7 +123,7 @@ Adds ruby version to the zsh.
 RPROMPT="\$(~/.rvm/bin/rvm-prompt s i v g)%{$fg[yellow]%}[%*]"
 ```
 
-##### Postgres
+##### Postgresql
 
 ```shell
 sudo apt-get update && sudo apt-get -fy install postgresql postgresql-common postgresql-client
