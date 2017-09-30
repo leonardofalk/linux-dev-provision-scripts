@@ -107,7 +107,7 @@ Initial commands for normal and API only apps:
 ```
 rails new myapp --skip-action-cable --skip-keeps --skip-coffee --skip-test --skip-system-test --database=postgresl --webpack=react
 # or
-rails new myapp --api --skip-test --skip-system-test --skip-keeps --database=postgresql
+rails new myapp --api --skip-test --skip-system-test --skip-keeps --skip-action-cable --database=postgresql
 ```
 
 Maximizes file system inotify watchers for gem listen.
