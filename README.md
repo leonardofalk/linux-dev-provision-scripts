@@ -105,9 +105,21 @@ gem install bundler rails
 Initial commands for normal and API only apps:
 
 ```
-rails new myapp --skip-action-cable --skip-keeps --skip-coffee --skip-test --skip-system-test --database=postgresl --webpack=react
-# or
-rails new myapp --api --skip-test --skip-system-test --skip-keeps --skip-action-cable --database=postgresql
+# for full apps
+rails new myapp \
+  --skip-action-cable \   # skip rails web sockets, cuz it suck balls
+  --skip-coffee \         # skip coffeescript, cuz ES5+ is better
+  --skip-test \           # skip default test suite, cuz rspec is better
+  --skip-system-test \    # skip system tests, cuz capybara is better
+  --database=postgresql \ # set a database compatible with most of cloud services
+  --webpack=react         # set webpack for react, angular if it's a SPA
+# or for apis
+rails new myapp \
+  --api \
+  --skip-test \
+  --skip-system-test \
+  --skip-action-cable \
+  --database=postgresql
 ```
 
 Maximizes file system inotify watchers for gem listen.
