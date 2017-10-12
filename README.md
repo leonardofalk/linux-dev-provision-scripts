@@ -162,3 +162,11 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debi
 sudo apt-get update && sudo apt-get install -fy docker-ce
 sudo usermod -aG docker $USER # skip sudo to run docker
 ```
+
+##### VirtualBox
+
+```shell
+sudo add-apt-repository -y "deb http://download.virtualbox.org/virtualbox/debian stretch contrib"
+curl -L https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo apt-key add -
+sudo apt-get update && sudo apt-get install -yf virtualbox-5.1
+```
