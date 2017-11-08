@@ -29,12 +29,13 @@ My favorite shell.
 
 Plugins:
 
-`plugins=(heroku rake autojump git ruby gem ng rvm docker history nyan ssh-agent sudo bundler command-not-found zsh-syntax-highlighting history-substring-search gnu-utils github)`
+`plugins=(heroku rake git ruby gem ng rvm docker history node npm systemd ssh-agent sudo bundler command-not-found zsh-syntax-highlighting history-substring-search gnu-utils github yarn common-aliases debian)`
 
 ```shell
 cd $HOME
 sudo apt-get -y install zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# prompts password
 wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
 wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
 mkdir -p $HOME/.fonts/ $HOME/.config/fontconfig/conf.d
@@ -98,7 +99,8 @@ source ~/.rvm/scripts/rvm
 rvm install 2.4.2
 rvm use 2.4.2 --default
 ruby -v
-echo "gem: --no-ri --no-rdoc" >> $HOME/.gemrc
+rm -f $HOME/.gemrc && touch $HOME/.gemrc && echo "gem: --no-ri --no-rdoc" >> $HOME/.gemrc
+rm -f $HOME/.irbrc && touch $HOME/.irbrc && echo "require 'awesome_print'\nAwesomePrint.irb!" >> $HOME/.irbrc
 gem install bundler rails
 ```
 
