@@ -165,6 +165,14 @@ sudo apt-get update && sudo apt-get install -fy docker-ce
 sudo usermod -aG docker $USER # skip sudo to run docker
 ```
 
+##### Docker Compose
+
+```shell
+sudo curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+```
+
 ##### VirtualBox
 
 ```shell
