@@ -141,7 +141,7 @@ RPROMPT="\$(~/.rvm/bin/rvm-prompt s i v g)%{$fg[yellow]%}[%*]"
 
 ```shell
 sudo apt-get update && sudo apt-get -fy install postgresql postgresql-common postgresql-client
-sudo -u postgres createuser leonardo -s
+sudo -u postgres createuser $USER -s
 sudo -u postgres psql
 \password leonardo
 ```
@@ -169,9 +169,10 @@ sudo usermod -aG docker $USER # skip sudo to run docker
 ##### Docker Compose
 
 ```shell
-sudo curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-docker-compose --version
+mkdir -p ~/.zsh/completion
+curl -L https://raw.githubusercontent.com/docker/compose/1.21.2/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
 ```
 
 ##### VirtualBox
