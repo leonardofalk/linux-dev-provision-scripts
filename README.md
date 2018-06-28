@@ -182,3 +182,13 @@ sudo add-apt-repository -y "deb http://download.virtualbox.org/virtualbox/debian
 curl -L https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo apt-key add -
 sudo apt-get update && sudo apt-get install -yf virtualbox-5.1
 ```
+
+#### Java
+
+```shell
+echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | sudo tee /etc/apt/sources.list.d/webupd8team-java.list
+echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | sudo tee -a /etc/apt/sources.list.d/webupd8team-java.list
+sudo apt adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
+sudo apt update
+sudo apt install oracle-java8-installer
+```
