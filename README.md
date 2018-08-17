@@ -45,6 +45,14 @@ mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
 vim ~/.zshrc
 ```
 
+Make it your default shell (not execute this as root user): 
+
+1. `chsh -s $(which zsh)`
+
+    *Note: that this will not work if Zsh is not in your authorized shells list (/etc/shells) or if you don't have permission to use chsh.
+2. Log out and login back again to use your new default shell.
+
+
 ##### Proxy Settings
 
 Depends if I'm under a proxied network.
