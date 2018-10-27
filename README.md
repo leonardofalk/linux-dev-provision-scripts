@@ -10,7 +10,7 @@ Debian doesn't come with sudo by default like Ubuntu, we gonna need it soon.
 
 ```shell
 su -
-apt-get install -y sudo
+apt install -fy sudo
 adduser USER sudo
 # restart
 ```
@@ -33,7 +33,7 @@ Plugins:
 
 ```shell
 cd $HOME
-sudo apt-get -y install zsh
+sudo apt -fy install zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 # prompts password
 wget https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
@@ -76,11 +76,9 @@ export no_proxy=$NO_PROXY
 NodeJS and npm via nvm.
 
 ```shell
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.4/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 source $HOME/.nvm/nvm.sh
 nvm ls-remote && nvm install --lts
-sudo ln -s $(which node) /usr/bin/node
-sudo ln -s $(which npm) /usr/bin/npm
 ```
 
 ##### Yarn
@@ -88,7 +86,7 @@ sudo ln -s $(which npm) /usr/bin/npm
 ```shell
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt-get update && sudo apt-get -fy install yarn
+sudo apt update && sudo apt -fy install yarn
 ```
 
 Setup yarn global bin path, otherwise global packages won't work.
@@ -99,16 +97,16 @@ export YARN_GLOBAL_PATH=$(yarn global bin)
 export PATH=$PATH:$YARN_GLOBAL_PATH
 ```
 
-##### Ruby on Rails
+##### Ruby
 ```shell
 gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 curl -sSL https://get.rvm.io | bash -s stable
 source ~/.rvm/scripts/rvm
-rvm install 2.5.1
-rvm use 2.5.1 --default
+rvm install 2.5.3
+rvm use 2.5.3 --default
 ruby -v
 rm -f $HOME/.gemrc && touch $HOME/.gemrc && echo "gem: --no-ri --no-rdoc" >> $HOME/.gemrc
-rm -f $HOME/.irbrc && touch $HOME/.irbrc && echo "require 'awesome_print'\nAwesomePrint.irb!" >> $HOME/.irbrc
+rm -f $HOME/.irbrc && touch $HOME/.irbrc && echo "require 'awesome_print'\nAwesomePrint.irb\!\n" >> $HOME/.irbrc
 gem install bundler rails
 ```
 
@@ -122,7 +120,7 @@ rails new myapp \
   --skip-test \           # skip default test suite, cuz rspec is better
   --skip-system-test \    # skip system tests, cuz capybara is better
   --database=postgresql \ # set a database compatible with most of cloud services
-  --webpack=react         # set webpack for react, angular if it's a SPA
+  --webpack=react         # set webpack for react
 # or for apis
 rails new myapp \
   --api \
@@ -148,19 +146,21 @@ RPROMPT="\$(~/.rvm/bin/rvm-prompt s i v g)%{$fg[yellow]%}[%*]"
 ##### Postgresql
 
 ```shell
-sudo apt-get update && sudo apt-get -fy install postgresql postgresql-common postgresql-client
+sudo apt update && sudo apt -fy install postgresql postgresql-common postgresql-client
 sudo -u postgres createuser $USER -s
 sudo -u postgres psql
+# on psql console
 \password leonardo
+\q
 ```
 
 ##### Git
 ```shell
 git config --global color.ui true
 git config --global user.name "Leonardo Falk"
-git config --global user.email "wontputmyemailhere@"
+git config --global user.email "email@example.com"
 git config --global pull.rebase true
-ssh-keygen -t rsa -b 4096 -C "wontputmyemailhere@"
+ssh-keygen -t rsa -b 4096 -C "email@example.com"
 cat ~/.ssh/id_rsa.pub # and copy to github
 ssh -T git@github.com # test connection
 ```
@@ -170,14 +170,14 @@ ssh -T git@github.com # test connection
 ```shell
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian stretch stable"
-sudo apt-get update && sudo apt-get install -fy docker-ce
-sudo usermod -aG docker $USER # skip sudo to run docker
+sudo apt update && sudo apt install -fy docker-ce
+sudo usermod -aG docker $USER
 ```
 
 ##### Docker Compose
 
 ```shell
-sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 mkdir -p ~/.zsh/completion
 curl -L https://raw.githubusercontent.com/docker/compose/1.21.2/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
@@ -200,3 +200,22 @@ sudo apt adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
 sudo apt update
 sudo apt install oracle-java8-installer
 ```
+
+#### Atom Editor
+
+```shell
+curl -sL https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
+sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+sudo apt update && sudo apt install atom -fy
+```
+
+#### Spotify
+
+Because music is important too.
+
+```shell
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
+echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
+sudo apt update && sudo apt install spotify-client -fy
+```
+
