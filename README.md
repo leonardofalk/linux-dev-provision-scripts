@@ -2,7 +2,7 @@
 
 I did this because everytime I reset my PC I forget to install something. This document prevents it from happening again.
 
-Assuming that it ships with a clean Debian 9, this is the roadmap to a working development environment.
+Assuming that it ships with a clean Debian 10, this is the roadmap to a working development environment.
 
 ##### sudo
 
@@ -25,71 +25,160 @@ sudo apt-get -fy install curl wget git vim zlib1g-dev build-essential libssl-dev
 
 ##### zsh + spaceship
 
-My favorite shell.
+My favorite shell, so far.
 
 ```shell
 cd $HOME
-sudo apt -fy install zsh
-chsh -s $(which zsh)
+sudo apt -fy install zsh curl git fonts-firacode
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 # prompts password
 git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
 ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-gedit ~/.zshrc
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
+edit ~/.zshrc
 ```
 
-Configure
+Initial Config
 
 ```shell
+# ~/.zshrc
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="spaceship"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+export UPDATE_ZSH_DAYS=30
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+HIST_STAMPS="dd/mm/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  common-aliases
+  docker
+  git
+  history-substring-search
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='code'
+fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+alias zshconfig="$EDITOR ~/.zshrc"
+alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
+alias sourcezsh="source ~/.zshrc"
+alias grep="grep -i"
+
+export COMPUTER_OWNER_FULL_NAME="Leonardo Falk"
+export COMPUTER_OWNER_EMAIL="leonardo.falk@hotmail.com"
+export PATH=$PATH:~/.local/bin
+
+# Spaceship Config
+# More options at https://github.com/denysdovhan/spaceship-prompt/blob/master/docs/Options.md
 
 SPACESHIP_PROMPT_ORDER=( dir git node ruby )
 
-export UPDATE_ZSH_DAYS=15
+### Added by Zplugin's installer
+source '$HOME/.zplugin/bin/zplugin.zsh'
+autoload -Uz _zplugin
+(( ${+_comps} )) && _comps[zplugin]=_zplugin
+### End of Zplugin's installer chunk
 
-HIST_STAMPS="dd/mm/yyyy"
+zplugin light zsh-users/zsh-autosuggestions
+zplugin light zsh-users/zsh-completions
+zplugin light zdharma/fast-syntax-highlighting
 
-export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-export EDITOR='vim' # gedit | nano
-
-alias zshconfig="$EDITOR $HOME/.zshrc"
-alias ohmyzsh="$EDITOR $HOME/.oh-my-zsh"
-alias sourcezsh="source $HOME/.zshrc"
-
-plugins=(
-  rake
-  git
-  ruby
-  gem
-  rvm
-  docker
-  history
-  node
-  npm
-  systemd
-  ssh-agent
-  sudo
-  bundler
-  command-not-found
-  zsh-syntax-highlighting
-  history-substring-search
-  gnu-utils
-  github
-  yarn
-  common-aliases
-  debian
-)
 ```
 
-more options at https://github.com/denysdovhan/spaceship-prompt/blob/master/docs/Options.md
+Then change terminal font do Fira Code.
 
 ##### Node Version Manager
 
 NodeJS and npm via nvm.
 
 ```shell
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+sudo apt -fy install git curl
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 source $HOME/.nvm/nvm.sh
 nvm ls-remote && nvm install --lts
 ```
@@ -97,9 +186,11 @@ nvm ls-remote && nvm install --lts
 ##### Yarn
 
 ```shell
+sudo apt -fy install curl
+sudo apt remove cmdtest -y # this conflicts with yarn cli
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt update && sudo apt install --no-install-recommends yarn
+sudo apt update && sudo apt install --no-install-recommends -y yarn # no install recommended/obsolete nodejs
 ```
 
 ##### Ruby
@@ -113,26 +204,6 @@ ruby -v
 rm -f $HOME/.gemrc && touch $HOME/.gemrc && echo "gem: --no-ri --no-rdoc" >> $HOME/.gemrc
 rm -f $HOME/.irbrc && touch $HOME/.irbrc && echo "require 'awesome_print'\nAwesomePrint.irb\!\n" >> $HOME/.irbrc
 gem install bundler rails
-```
-
-Initial commands for normal and API only apps:
-
-```
-# Full
-rails new myapp \
-  --skip-action-cable \   # skip rails web sockets, cuz it suck balls
-  --skip-coffee \         # skip coffeescript, cuz ES5+ is better
-  --skip-test \           # skip default test suite, cuz rspec is better
-  --skip-system-test \    # skip system tests, cuz capybara is better
-  --database=postgresql \ # set a database compatible with most of cloud services
-  --webpack=react         # set webpack for react
-# API
-rails new myapp \
-  --api \
-  --skip-test \
-  --skip-system-test \
-  --skip-action-cable \
-  --database=postgresql
 ```
 
 Maximizes file system inotify watchers for gem listen.
@@ -155,20 +226,22 @@ sudo -u postgres psql
 ##### Git
 ```shell
 git config --global color.ui true
-git config --global user.name "Leonardo Falk"
-git config --global user.email "email@example.com"
+git config --global user.name "$COMPUTER_OWNER_FULL_NAME"
+git config --global user.email "$COMPUTER_OWNER_EMAIL"
 git config --global pull.rebase true
-ssh-keygen -t rsa -b 4096 -C "email@example.com"
+ssh-keygen -t rsa -b 4096 -C "$COMPUTER_OWNER_EMAIL"
 cat ~/.ssh/id_rsa.pub # copy to https://github.com/settings/ssh/new
-ssh -T git@github.com # test connection
+ssh -T git@github.com # optional, test connection
 ```
 
 ##### Docker
 
 ```shell
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo usermod -aG docker $USER
+sudo apt install -fy curl apt-transport-https ca-certificates gnupg2 software-properties-common
+echo "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker-ce.list
+sudo apt update && sudo apt install -fy docker-ce docker-ce-cli containerd.io
+sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 ```
 
 ##### VirtualBox
